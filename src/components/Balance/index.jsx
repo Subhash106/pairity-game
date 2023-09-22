@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 
 export default function Footer() {
   return (
-    <div className="balance">
+    <div className="balance mb-sm">
       <div className="balance-amount">
         <p>Balance</p>
         <p>

@@ -7,6 +7,7 @@ import Recharge from "./pages/Recharge/index.jsx";
 import Invite from "./pages/Invite/index.jsx";
 import Profile from "./pages/Profile/index.jsx";
 import Home from "./pages/Home/index.jsx";
+import Playground from "./pages/Playground/index.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+      },
+      {
+        path: "/game/:id",
+        element: <Playground />,
       },
     ],
   },
