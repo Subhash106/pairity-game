@@ -1,0 +1,11 @@
+.balance {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.balance-cta {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
