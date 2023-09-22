@@ -5,7 +5,7 @@ import "./style.css";
 
 export default function NavHeader({ title }) {
   return (
-    <div className="nav-header mb-sm p-sm">
+    <div className="nav-header p-sm">
       <NavLink to="/home">
         <ArrowBack />
       </NavLink>

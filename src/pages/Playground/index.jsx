@@ -1,5 +1,6 @@
 import Board from "../../components/Board";
 import NavHeader from "../../components/NavHeader";
+import Record from "../../components/Record";
 import "./style.css";
 
 export default function Plaground() {
@@ -7,6 +8,7 @@ export default function Plaground() {
     <div className="playground">
       <NavHeader title="Fast-Pairity" />
       <Board />
+      <Record />
     </div>
   );
 }

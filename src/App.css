@@ -9,6 +9,9 @@
 /* Shades: #277c38 */
 /* Tints: #409651 */
 :root {
+  --green: #79ac78;
+  --red: #c70039;
+  --violet: #713abe;
   --white: #ffffff;
   --primary-gray: #777;
   --primary-gray-dark: #333;
@@ -21,6 +24,7 @@
   --main-tertiary: #409651;
   --error: #d32f2f;
   --default-font-size: 16px;
+  --default-box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 * {
@@ -32,7 +36,7 @@
 html {
   @media (max-width: 56.25em) {
     /* 1rem = 11px */
-    font-size: 68.75%;
+    font-size: 75%;
   }
 }
 

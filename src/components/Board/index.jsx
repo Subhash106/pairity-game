@@ -2,10 +2,10 @@ import "./style.css";
 
 export default function Board() {
   return (
-    <div className="board mb-sm">
+    <div className="board mb-sm p-xs">
       <div className="board-period">
         <p>Period</p>
-        <p>1234567890</p>
+        <p className="board-period--number">1234567890</p>
       </div>
       <div className="board-count_down">
         <p>Count Down</p>

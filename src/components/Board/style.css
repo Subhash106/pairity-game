@@ -2,11 +2,13 @@
   display: grid;
   grid-template-columns: repeat(30, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  gap: 0.5rem;
+  gap: 1rem;
+  margin-top: 6rem;
+  box-shadow: var(--default-box-shadow);
 }
 
 .board-period {
-  grid-column: 1/15;
+  grid-column: 1/16;
 }
 .board-count_down {
   grid-column: 16/31;
@@ -14,24 +16,24 @@
 }
 
 .board-join--green {
-  grid-column: 1/10;
-  background-color: #79ac78;
-  color: #fff;
-  text-align: center;
-  padding: 1rem;
-  border-radius: 4px;
+  grid-column: 1/11;
+  background-color: var(--green);
 }
 .board-join--violet {
-  grid-column: 11/20;
-  background-color: #713abe;
-  color: #fff;
-  text-align: center;
-  padding: 1rem;
-  border-radius: 4px;
+  grid-column: 11/21;
+  background-color: var(--violet);
 }
 .board-join--red {
   grid-column: 21/31;
-  background-color: #c70039;
+  background-color: var(--red);
+}
+
+.board-join--red,
+.board-join--violet,
+.board-join--green {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #fff;
   text-align: center;
   padding: 1rem;
@@ -39,15 +41,15 @@
 }
 
 .board-number--1 {
-  grid-column: 1/6;
+  grid-column: 1/7;
 }
 
 .board-number--2 {
-  grid-column: 7/12;
+  grid-column: 7/13;
 }
 
 .board-number--3 {
-  grid-column: 13/18;
+  grid-column: 13/19;
 }
 
 .board-number--4 {
@@ -55,19 +57,19 @@
 }
 
 .board-number--5 {
-  grid-column: 26/31;
+  grid-column: 25/31;
 }
 
 .board-number--6 {
-  grid-column: 1/6;
+  grid-column: 1/7;
 }
 
 .board-number--7 {
-  grid-column: 7/12;
+  grid-column: 7/13;
 }
 
 .board-number--8 {
-  grid-column: 13/18;
+  grid-column: 13/19;
 }
 
 .board-number--9 {
@@ -75,7 +77,7 @@
 }
 
 .board-number--0 {
-  grid-column: 26/31;
+  grid-column: 25/31;
 }
 
 div[class^="board-number--"] {
@@ -87,6 +89,22 @@ div[class^="board-number--"] {
 
 .board-count_down span {
   display: inline-block;
-  padding: 0.5rem;
+  padding: 0 0.5rem;
   background-color: #d8b4f8;
+  font-weight: 700;
+  font-size: 2rem;
+  border-radius: 4px;
+}
+
+.board-count_down span:first-child {
+  margin-right: 0.5rem;
+}
+
+.board-count_down span:last-child {
+  margin-left: 0.5rem;
+}
+
+.board-period--number {
+  font-weight: 700;
+  font-size: 2rem;
 }

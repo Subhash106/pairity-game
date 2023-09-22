@@ -1,0 +1,16 @@
+.circles {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.circle {
+  width: 3rem;
+  height: 3rem;
+  margin: 1rem;
+  display: flex;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+}
