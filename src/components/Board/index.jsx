@@ -19,8 +19,6 @@ export default function Board() {
   const diffSecondsCount = parseInt(diffSeconds / 30);
   const diffSecondsModulo = diffSeconds % 30;
 
-  console.log("diffMinutes", diffSeconds);
-
   useEffect(() => {
     setCount({
       ...count,
@@ -28,6 +26,7 @@ export default function Board() {
       seconds: diffSecondsModulo,
       period: `${moment().format("YYYYMMDD")}${diffSecondsCount}`,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

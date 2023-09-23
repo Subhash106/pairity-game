@@ -3,7 +3,9 @@ import Board from "../../components/Board";
 import Modal from "../../components/Modal";
 import NavHeader from "../../components/NavHeader";
 import Orders from "../../components/Orders";
+import Play from "../../components/Play";
 import Record from "../../components/Record";
+import Rule from "../../components/Rule";
 import { setModal } from "../../store/modal";
 import "./style.css";
 
@@ -22,12 +24,7 @@ export default function Plaground() {
       <Record />
       <Orders />
       <Modal handleClose={handleClose} open={open}>
-        <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate
-          aperiam accusamus quibusdam nostrum, quae consectetur? Reiciendis
-          veritatis in ullam placeat fuga tempora consequatur ipsam perferendis
-          tempore soluta. Ipsa, hic quae.
-        </p>
+        {!open ? <Rule /> : <Play title="Join Violet" color="red" />}
       </Modal>
     </div>
   );

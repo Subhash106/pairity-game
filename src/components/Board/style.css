@@ -95,6 +95,7 @@ div[class^="board-number--"] {
   font-weight: 700;
   font-size: 2rem;
   border-radius: 4px;
+  font-family: "Roboto Mono", monospace;
 }
 
 .board-count_down span:first-child {
