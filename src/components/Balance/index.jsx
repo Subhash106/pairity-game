@@ -1,5 +1,5 @@
 import "./style.css";
-import { Refresh } from "@mui/icons-material";
+import { Refresh, CurrencyRupee } from "@mui/icons-material";
 import { Button } from "@mui/material";
 
 export default function Footer() {
@@ -7,11 +7,8 @@ export default function Footer() {
     <div className="balance mb-sm">
       <div className="balance-amount">
         <p>Balance</p>
-        <p>
-          8.40{" "}
-          <a href="#">
-            <Refresh />
-          </a>
+        <p className="balance-display">
+          <CurrencyRupee /> <span>8.40</span> <Refresh />
         </p>
         <p>ID:123456</p>
       </div>
