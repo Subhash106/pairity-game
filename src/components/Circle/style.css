@@ -1,6 +1,6 @@
 .circles {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
 }
 
 .circle {
