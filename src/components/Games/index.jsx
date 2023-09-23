@@ -16,7 +16,7 @@ const games = [
   },
   {
     id: 3,
-    title: "Comfort-Parity",
+    title: "Com-Parity",
     backgroundColor: "#E9B824",
     timeDuration: "1mins",
   },
