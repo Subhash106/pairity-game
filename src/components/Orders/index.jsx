@@ -18,7 +18,7 @@ export default function Orders() {
   };
 
   return (
-    <div className="order mb-sm">
+    <div className="order mb-md">
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           variant="fullWidth"
