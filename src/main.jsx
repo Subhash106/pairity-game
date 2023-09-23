@@ -8,6 +8,8 @@ import Invite from "./pages/Invite/index.jsx";
 import Profile from "./pages/Profile/index.jsx";
 import Home from "./pages/Home/index.jsx";
 import Playground from "./pages/Playground/index.jsx";
+import { Provider } from "react-redux";
+import store from "./store";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
