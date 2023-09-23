@@ -1,0 +1,29 @@
+.game {
+  padding: 1rem;
+  border-radius: 4px;
+  background-color: brown;
+}
+
+.game-title {
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.6rem;
+}
+
+.game-duration {
+  text-align: center;
+  color: #fff;
+}
+
+.css-rmbuyw-MuiChip-root {
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+.css-1u4ma7l-MuiChip-root {
+  font-family: "Roboto", sans-serif !important;
+  background-color: #252b48 !important;
+  font-size: 1.2rem !important;
+}
