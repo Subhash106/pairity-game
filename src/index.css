@@ -1,4 +1,21 @@
 :root {
+  --green: #79ac78;
+  --red: #c70039;
+  --violet: #713abe;
+  --white: #ffffff;
+  --primary-gray: #777;
+  --primary-gray-dark: #333;
+  --tint-gray: #343a40;
+  --tint-2-gray: #ccc;
+  --secondary-gray: #adb5bd;
+  --tertiary-gray: #f1f3f5;
+  --main-primary: #2b8a3e;
+  --main-secondary: #277c38;
+  --main-tertiary: #409651;
+  --error: #d32f2f;
+  --default-font-size: 16px;
+  --default-box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.15);
+
   font-family: "Roboto", sans-serif;
   line-height: 1.5;
   font-weight: 400;

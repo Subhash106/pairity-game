@@ -1,13 +1,18 @@
 import { ArrowBack } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { string } from "prop-types";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { setModal } from "../../store/modal";
+import CustomModal from "../CustomModal";
+import Rule from "../Rule";
 import "./style.css";
 
 export default function NavHeader({ title }) {
-  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div className="nav-header p-xs">
@@ -16,8 +21,12 @@ export default function NavHeader({ title }) {
       </NavLink>
       <div>{title}</div>
       <div>
-        <Button onClick={() => dispatch(setModal({ open: true }))}>Rule</Button>
+        <Button onClick={() => setOpen(true)}>Rule</Button>
       </div>
+
+      <CustomModal handleClose={handleClose} open={open}>
+        <Rule />
+      </CustomModal>
     </div>
   );
 }
