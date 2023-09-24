@@ -1,4 +1,4 @@
-import { string } from "prop-types";
+import { number, string } from "prop-types";
 import "./style.css";
 
 export default function Circle({ number, color }) {
@@ -10,6 +10,6 @@ export default function Circle({ number, color }) {
 }
 
 Circle.propTypes = {
-  number: string.isRequired,
+  number: number.isRequired,
   color: string.isRequired,
 };

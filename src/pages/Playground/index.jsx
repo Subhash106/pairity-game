@@ -7,7 +7,7 @@ import "./style.css";
 export default function Plaground() {
   return (
     <div className="playground">
-      <NavHeader title="Fast-Pairity" />
+      <NavHeader />
       <Board />
       <Record />
       <Orders />

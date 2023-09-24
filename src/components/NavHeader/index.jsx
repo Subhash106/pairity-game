@@ -1,14 +1,15 @@
 import { ArrowBack } from "@mui/icons-material";
 import { Button } from "@mui/material";
-import { string } from "prop-types";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import CustomModal from "../CustomModal";
 import Rule from "../Rule";
 import "./style.css";
 
-export default function NavHeader({ title }) {
+export default function NavHeader() {
   const [open, setOpen] = useState(false);
+  const { title } = useSelector((state) => state.game);
 
   const handleClose = () => {
     setOpen(false);
@@ -30,7 +31,3 @@ export default function NavHeader({ title }) {
     </div>
   );
 }
-
-NavHeader.propTypes = {
-  title: string.isRequired,
-};

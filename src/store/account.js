@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   balance: 100,
+  id: 123456,
 };
 
 const accountSlice = createSlice({
