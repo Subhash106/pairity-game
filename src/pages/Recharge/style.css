@@ -1,0 +1,20 @@
+.recharge {
+  width: 100%;
+}
+
+.recharge-balance {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.recharge-balance_amount {
+  font-size: 1.8rem;
+}
+
+.recharge-denominations {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
