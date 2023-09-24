@@ -18,11 +18,13 @@ export default function Play({ title, color }) {
 
   const numberHandler = (e, modifier) => {
     e.stopPropagation();
-    setTotal({
-      ...total,
-      number: number + modifier,
-      totalMoney: (number + modifier) * contractMoney,
-    });
+    if (number + modifier > 0) {
+      setTotal({
+        ...total,
+        number: number + modifier,
+        totalMoney: (number + modifier) * contractMoney,
+      });
+    }
   };
 
   const contractMoneyHandler = (e, modifier) => {
@@ -56,24 +58,34 @@ export default function Play({ title, color }) {
           <button
             onClick={(e) => contractMoneyHandler(e, 10)}
             className="custom-button"
+            style={{ background: contractMoney === 10 ? "#dedede" : "" }}
           >
             10
           </button>
           <button
             onClick={(e) => contractMoneyHandler(e, 100)}
             className="custom-button"
+            style={{
+              background: contractMoney === 100 ? "#dedede" : "",
+            }}
           >
             100
           </button>
           <button
             onClick={(e) => contractMoneyHandler(e, 1000)}
             className="custom-button"
+            style={{
+              background: contractMoney === 1000 ? "#dedede" : "",
+            }}
           >
             1000
           </button>
           <button
             onClick={(e) => contractMoneyHandler(e, 10000)}
             className="custom-button"
+            style={{
+              background: contractMoney === 10000 ? "#dedede" : "",
+            }}
           >
             10000
           </button>
@@ -109,7 +121,9 @@ export default function Play({ title, color }) {
             +5
           </button>
         </div>
-        <p>{`Total contract money is ${totalMoney}`}</p>
+        <p>
+          Total contract money is <strong>{totalMoney}</strong>
+        </p>
       </div>
       <button
         className="btn btn-confirm"
