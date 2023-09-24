@@ -1,5 +1,5 @@
 import { CurrencyRupee } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Alert, Button } from "@mui/material";
 import { string } from "prop-types";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -8,6 +8,7 @@ import { COLOR_MAP } from "../constant";
 import "./style.css";
 
 export default function Play({ title, color }) {
+  const [lowBalance, setLowBalance] = useState(false);
   const { balance } = useSelector((state) => state.account);
   const [total, setTotal] = useState({
     contractMoney: 10,
@@ -32,6 +33,15 @@ export default function Play({ title, color }) {
     setTotal({ ...total, contractMoney: modifier });
   };
 
+  const confirmHandler = (e) => {
+    e.stopPropagation();
+
+    if (balance < totalMoney) {
+      setLowBalance(true);
+      return;
+    }
+  };
+
   useEffect(() => {
     setTotal({ ...total, totalMoney: number * contractMoney });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,6 +55,13 @@ export default function Play({ title, color }) {
       >
         {title}
       </h2>
+      {lowBalance && (
+        <div className="play-alert_container">
+          <Alert severity="warning" fullWidth>
+            Your balance is low! Please recharge to continue.
+          </Alert>
+        </div>
+      )}
       <div className="play-balance">
         <CurrencyRupee />
         <span className="play-balance_amount">{balance}</span>
@@ -106,7 +123,9 @@ export default function Play({ title, color }) {
           >
             -1
           </button>
-          <p>{number}</p>
+          <p className="play-number" style={{ color: COLOR_MAP[color] }}>
+            {number}
+          </p>
           <button
             onClick={(e) => numberHandler(e, 1)}
             className="custom-button"
@@ -128,6 +147,7 @@ export default function Play({ title, color }) {
       <button
         className="btn btn-confirm"
         style={{ background: COLOR_MAP[color] }}
+        onClick={confirmHandler}
       >
         Confirm
       </button>

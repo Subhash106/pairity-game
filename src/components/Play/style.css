@@ -28,6 +28,15 @@
   justify-content: space-between;
 }
 
+.play-number {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.play-alert_container {
+  width: 100%;
+}
+
 .btn {
   background-color: #eee;
 }

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  id: 4,
+  id: "game4",
   title: "Safe-Parity",
   backgroundColor: "#219C90",
   timeDuration: "3mins",

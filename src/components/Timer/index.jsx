@@ -7,7 +7,7 @@ import "./style.css";
 
 let timeoutId;
 export default function Timer() {
-  const { durationInSeconds } = useSelector((state) => state.game);
+  const { durationInSeconds, id } = useSelector((state) => state.game);
   const dispatch = useDispatch();
   // Your moment at midnight
   const mmtMidnight = moment().clone().startOf("day");
@@ -47,11 +47,21 @@ export default function Timer() {
 
         dispatch(
           setRecord({
-            id: diffSecondsCount,
-            color: COLOR_MAP["red"],
-            number: 9,
+            data: {
+              id: diffSecondsCount,
+              color: COLOR_MAP["red"],
+              number: 9,
+            },
+            gameId: id,
           })
         );
+      } else if (seconds === 0 && remainingSeconds) {
+        setCount({
+          ...count,
+          minutes: parseInt(remainingSeconds / 60),
+          remainingSeconds: remainingSeconds - 1,
+          seconds: remainingSeconds % 60,
+        });
       } else if (seconds >= 1) {
         setCount({
           ...count,
@@ -64,6 +74,7 @@ export default function Timer() {
 
     return () => clearInterval(timeoutId);
   }, [
+    id,
     count,
     seconds,
     remainingSeconds,
