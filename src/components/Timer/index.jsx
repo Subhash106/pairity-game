@@ -1,28 +1,34 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setRecord } from "../../store/record";
 import { COLOR_MAP } from "../constant";
 import "./style.css";
 
 let timeoutId;
 export default function Timer() {
+  const { durationInSeconds } = useSelector((state) => state.game);
   const dispatch = useDispatch();
-
-  const [count, setCount] = useState({ period: "", minutes: 0, seconds: 0 });
-  const { period, minutes, seconds } = count;
   // Your moment at midnight
   const mmtMidnight = moment().clone().startOf("day");
-  // Difference in minutes
+  // Difference in seconds
   const diffSeconds = moment().diff(mmtMidnight, "seconds");
-  const diffSecondsCount = parseInt(diffSeconds / 30);
-  const diffSecondsModulo = diffSeconds % 30;
+  const diffSecondsCount = parseInt(diffSeconds / durationInSeconds);
+  const diffSecondsModulo = diffSeconds % durationInSeconds;
+
+  const [count, setCount] = useState({
+    period: "",
+    minutes: 0,
+    seconds: 0,
+    remainingSeconds: durationInSeconds - diffSecondsModulo,
+  });
+  const { period, minutes, seconds, remainingSeconds } = count;
 
   useEffect(() => {
     setCount({
       ...count,
-      minutes: parseInt(diffSecondsModulo / 60),
-      seconds: diffSecondsModulo,
+      seconds: remainingSeconds % 60,
+      minutes: parseInt(remainingSeconds / 60),
       period: `${moment().format("YYYYMMDD")}${diffSecondsCount}`,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -30,17 +36,13 @@ export default function Timer() {
 
   useEffect(() => {
     timeoutId = setInterval(() => {
-      if (seconds >= 1) {
+      if (remainingSeconds === 1 && seconds >= 1) {
         setCount({
           ...count,
-          seconds: seconds - 1,
-        });
-      } else {
-        setCount({
-          ...count,
-          minutes: parseInt(diffSecondsModulo / 60),
+          remainingSeconds: durationInSeconds - 1,
+          minutes: parseInt((durationInSeconds - 1) / 60),
+          seconds: durationInSeconds === 30 ? 29 : 59,
           period: `${moment().format("YYYYMMDD")}${diffSecondsCount}`,
-          seconds: 30,
         });
 
         dispatch(
@@ -50,6 +52,13 @@ export default function Timer() {
             number: 9,
           })
         );
+      } else if (seconds >= 1) {
+        setCount({
+          ...count,
+          minutes: parseInt(remainingSeconds / 60),
+          remainingSeconds: remainingSeconds - 1,
+          seconds: seconds - 1,
+        });
       }
     }, 1000);
 
@@ -57,9 +66,9 @@ export default function Timer() {
   }, [
     count,
     seconds,
-    diffSeconds,
+    remainingSeconds,
     diffSecondsCount,
-    diffSecondsModulo,
+    durationInSeconds,
     dispatch,
   ]);
 

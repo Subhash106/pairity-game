@@ -8,7 +8,7 @@ import { COLOR_MAP } from "../constant";
 import "./style.css";
 
 export default function Play({ title, color }) {
-  const { accountBalance } = useSelector((state) => state.account.balance);
+  const { balance } = useSelector((state) => state.account);
   const [total, setTotal] = useState({
     contractMoney: 10,
     totalMoney: 10,
@@ -47,7 +47,7 @@ export default function Play({ title, color }) {
       </h2>
       <div className="play-balance">
         <CurrencyRupee />
-        <span>{accountBalance}</span>
+        <span className="play-balance_amount">{balance}</span>
         <Button variant="contained" color="primary">
           Recharge
         </Button>
