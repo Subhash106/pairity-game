@@ -15,22 +15,34 @@ export default function Footer() {
         <ul>
           <li>
             <NavLink to="/home">
-              <Home />
+              <span>
+                <Home />
+                <p>Home</p>
+              </span>
             </NavLink>
           </li>
           <li>
             <NavLink to="/invite">
-              <PersonAdd />
+              <span>
+                <PersonAdd />
+                <p>Invite</p>
+              </span>
             </NavLink>
           </li>
           <li>
             <NavLink to="/recharge">
-              <AccountBalanceWallet />
+              <span>
+                <AccountBalanceWallet />
+                <p>Recharge</p>
+              </span>
             </NavLink>
           </li>
           <li>
             <NavLink to="/profile">
-              <Person />
+              <span>
+                <Person />
+                <p>Profile</p>
+              </span>
             </NavLink>
           </li>
         </ul>
