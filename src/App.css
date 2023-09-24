@@ -31,7 +31,6 @@ body {
 
 .heading-secondary {
   font-size: 2.4rem;
-  margin-bottom: 1.6rem;
   letter-spacing: -0.75px;
   color: var(--primary-gray);
 }

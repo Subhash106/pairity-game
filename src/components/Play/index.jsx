@@ -39,7 +39,7 @@ export default function Play({ title, color }) {
     <div className="play">
       <h2
         className="heading-secondary text-center"
-        style={{ color: COLOR_MAP[color] }}
+        style={{ color: COLOR_MAP[color], width: "100%" }}
       >
         {title}
       </h2>
@@ -111,9 +111,12 @@ export default function Play({ title, color }) {
         </div>
         <p>{`Total contract money is ${totalMoney}`}</p>
       </div>
-      <Button variant="contained" fullWidth>
+      <button
+        className="btn btn-confirm"
+        style={{ background: COLOR_MAP[color] }}
+      >
         Confirm
-      </Button>
+      </button>
     </div>
   );
 }

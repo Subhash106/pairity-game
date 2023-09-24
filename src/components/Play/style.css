@@ -23,3 +23,12 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.btn {
+  background-color: #eee;
+}
+
+.btn-confirm {
+  width: 100%;
+  color: #fff;
+}

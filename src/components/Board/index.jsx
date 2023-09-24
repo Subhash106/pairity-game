@@ -1,96 +1,82 @@
-import moment from "moment";
-import { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { setRecord } from "../../store/record";
-import { COLOR_MAP } from "../constant";
+import CustomModal from "../CustomModal";
+import Play from "../Play";
+import Timer from "../Timer";
 import "./style.css";
 
-let timeoutId;
-
 export default function Board() {
-  const dispatch = useDispatch();
-  const [count, setCount] = useState({ period: "", minutes: 0, seconds: 0 });
-  const { period, minutes, seconds } = count;
-  // Your moment at midnight
-  const mmtMidnight = moment().clone().startOf("day");
-  // Difference in minutes
-  const diffSeconds = moment().diff(mmtMidnight, "seconds");
-  const diffSecondsCount = parseInt(diffSeconds / 30);
-  const diffSecondsModulo = diffSeconds % 30;
+  const [open, setOpen] = useState(false);
+  const [play, setPlay] = useState({ title: "", color: "" });
 
-  useEffect(() => {
-    setCount({
-      ...count,
-      minutes: parseInt(diffSecondsModulo / 60),
-      seconds: diffSecondsModulo,
-      period: `${moment().format("YYYYMMDD")}${diffSecondsCount}`,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-  useEffect(() => {
-    timeoutId = setInterval(() => {
-      if (seconds >= 1) {
-        setCount({
-          ...count,
-          seconds: seconds - 1,
-        });
-      } else {
-        setCount({
-          ...count,
-          minutes: parseInt(diffSecondsModulo / 60),
-          period: `${moment().format("YYYYMMDD")}${diffSecondsCount}`,
-          seconds: 30,
-        });
-
-        dispatch(
-          setRecord({
-            id: diffSecondsCount,
-            color: COLOR_MAP["red"],
-            number: 9,
-          })
-        );
-      }
-    }, 1000);
-
-    return () => clearInterval(timeoutId);
-  }, [
-    count,
-    seconds,
-    diffSeconds,
-    diffSecondsCount,
-    diffSecondsModulo,
-    dispatch,
-  ]);
+  const openPlay = (title, color = "default") => {
+    setPlay({ title, color });
+    setOpen(true);
+  };
 
   return (
-    <div className="board mb-sm p-xs">
-      <div className="board-period">
-        <p>Period</p>
-        <p className="board-period--number">{period}</p>
+    <>
+      <div className="board mb-sm p-xs">
+        <Timer />
+        <div className="board-join_color">
+          <div
+            className="board-join--green"
+            onClick={() => openPlay("Join Green", "green")}
+          >
+            Join Green
+          </div>
+          <div
+            className="board-join--violet"
+            onClick={() => openPlay("Join Violet", "violet")}
+          >
+            Join Violet
+          </div>
+          <div
+            className="board-join--red"
+            onClick={() => openPlay("Join Red", "red")}
+          >
+            Join Red
+          </div>
+        </div>
+        <div className="board-select_number">
+          <div className="board-number--1" onClick={() => openPlay("Select 1")}>
+            1
+          </div>
+          <div className="board-number--2" onClick={() => openPlay("Select 2")}>
+            2
+          </div>
+          <div className="board-number--3" onClick={() => openPlay("Select 3")}>
+            3
+          </div>
+          <div className="board-number--4" onClick={() => openPlay("Select 4")}>
+            4
+          </div>
+          <div className="board-number--5" onClick={() => openPlay("Select 5")}>
+            5
+          </div>
+          <div className="board-number--6" onClick={() => openPlay("Select 6")}>
+            6
+          </div>
+          <div className="board-number--7" onClick={() => openPlay("Select 7")}>
+            7
+          </div>
+          <div className="board-number--8" onClick={() => openPlay("Select 8")}>
+            8
+          </div>
+          <div className="board-number--9" onClick={() => openPlay("Select 9")}>
+            9
+          </div>
+          <div className="board-number--0" onClick={() => openPlay("Select 0")}>
+            0
+          </div>
+        </div>
       </div>
-      <div className="board-count_down">
-        <p>Count Down</p>
-        <p>
-          <span>{parseInt(minutes / 10)}</span>
-          <span>{minutes % 10}</span>:<span>{parseInt(seconds / 10)}</span>
-          <span>{seconds % 10}</span>
-        </p>
-      </div>
-      <div className="board-join--green">Join Green</div>
-      <div className="board-join--violet">Join Violet</div>
-      <div className="board-join--red">Join Red</div>
-      <div className="board-number--1">1</div>
-      <div className="board-number--2">2</div>
-      <div className="board-number--3">3</div>
-      <div className="board-number--4">4</div>
-      <div className="board-number--5">5</div>
-      <div className="board-number--6">6</div>
-      <div className="board-number--7">7</div>
-      <div className="board-number--8">8</div>
-      <div className="board-number--9">9</div>
-      <div className="board-number--0">0</div>
-    </div>
+      <CustomModal handleClose={handleClose} open={open}>
+        <Play {...play} />
+      </CustomModal>
+    </>
   );
 }
