@@ -42,40 +42,70 @@ export default function Board() {
           </div>
         </div>
         <div className="board-select_number">
-          <div className="board-number--1" onClick={() => openPlay("Select 1")}>
+          <div
+            className="board-number--1"
+            onClick={() => openPlay("Select 1", "1")}
+          >
             1
           </div>
-          <div className="board-number--2" onClick={() => openPlay("Select 2")}>
+          <div
+            className="board-number--2"
+            onClick={() => openPlay("Select 2", "2")}
+          >
             2
           </div>
-          <div className="board-number--3" onClick={() => openPlay("Select 3")}>
+          <div
+            className="board-number--3"
+            onClick={() => openPlay("Select 3", "3")}
+          >
             3
           </div>
-          <div className="board-number--4" onClick={() => openPlay("Select 4")}>
+          <div
+            className="board-number--4"
+            onClick={() => openPlay("Select 4", "4")}
+          >
             4
           </div>
-          <div className="board-number--5" onClick={() => openPlay("Select 5")}>
+          <div
+            className="board-number--5"
+            onClick={() => openPlay("Select 5", "5")}
+          >
             5
           </div>
-          <div className="board-number--6" onClick={() => openPlay("Select 6")}>
+          <div
+            className="board-number--6"
+            onClick={() => openPlay("Select 6", "6")}
+          >
             6
           </div>
-          <div className="board-number--7" onClick={() => openPlay("Select 7")}>
+          <div
+            className="board-number--7"
+            onClick={() => openPlay("Select 7", "7")}
+          >
             7
           </div>
-          <div className="board-number--8" onClick={() => openPlay("Select 8")}>
+          <div
+            className="board-number--8"
+            onClick={() => openPlay("Select 8", "8")}
+          >
             8
           </div>
-          <div className="board-number--9" onClick={() => openPlay("Select 9")}>
+          <div
+            className="board-number--9"
+            onClick={() => openPlay("Select 9", "9")}
+          >
             9
           </div>
-          <div className="board-number--0" onClick={() => openPlay("Select 0")}>
+          <div
+            className="board-number--0"
+            onClick={() => openPlay("Select 0", "0")}
+          >
             0
           </div>
         </div>
       </div>
       <CustomModal handleClose={handleClose} open={open}>
-        <Play {...play} />
+        <Play {...play} handleClose={handleClose} />
       </CustomModal>
     </>
   );

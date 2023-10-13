@@ -1,21 +1,33 @@
 import { CurrencyRupee } from "@mui/icons-material";
 import { Alert, Button } from "@mui/material";
+import { func } from "prop-types";
 import { string } from "prop-types";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { baseUrl } from "../../services/constant";
+import getDiffCount from "../../utils/getDiffCount";
 import { COLOR_MAP } from "../constant";
 import "./style.css";
 
-export default function Play({ title, color }) {
+export default function Play({ title, color, handleClose }) {
   const [lowBalance, setLowBalance] = useState(false);
-  const { balance } = useSelector((state) => state.account);
+  const { balance, id } = useSelector((state) => state.account);
+  const { durationInSeconds, id: gameId } = useSelector((state) => state.game);
+  const { diffSecondsCount } = getDiffCount(durationInSeconds);
   const [total, setTotal] = useState({
     contractMoney: 10,
     totalMoney: 10,
     number: 1,
   });
   const { totalMoney, number, contractMoney } = total;
+
+  const selectedColor =
+    COLOR_MAP[
+      ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"].includes(color)
+        ? "default"
+        : color
+    ];
 
   const numberHandler = (e, modifier) => {
     e.stopPropagation();
@@ -33,13 +45,29 @@ export default function Play({ title, color }) {
     setTotal({ ...total, contractMoney: modifier });
   };
 
-  const confirmHandler = (e) => {
+  const confirmHandler = async (e) => {
     e.stopPropagation();
 
     if (balance < totalMoney) {
       setLowBalance(true);
       return;
     }
+
+    //store data against user
+    const data = {
+      gameId,
+      userId: id,
+      color,
+      amount: totalMoney,
+      time: diffSecondsCount,
+    };
+
+    await fetch(`${baseUrl}/plays.json`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+
+    handleClose();
   };
 
   useEffect(() => {
@@ -51,7 +79,7 @@ export default function Play({ title, color }) {
     <div className="play">
       <h2
         className="heading-secondary text-center"
-        style={{ color: COLOR_MAP[color], width: "100%" }}
+        style={{ color: selectedColor, width: "100%" }}
       >
         {title}
       </h2>
@@ -123,7 +151,7 @@ export default function Play({ title, color }) {
           >
             -1
           </button>
-          <p className="play-number" style={{ color: COLOR_MAP[color] }}>
+          <p className="play-number" style={{ color: selectedColor }}>
             {number}
           </p>
           <button
@@ -146,7 +174,7 @@ export default function Play({ title, color }) {
       </div>
       <button
         className="btn btn-confirm"
-        style={{ background: COLOR_MAP[color] }}
+        style={{ background: selectedColor }}
         onClick={confirmHandler}
       >
         Confirm
@@ -158,4 +186,5 @@ export default function Play({ title, color }) {
 Play.propTypes = {
   title: string.isRequired,
   color: string.isRequired,
+  handleClose: func.isRequired,
 };

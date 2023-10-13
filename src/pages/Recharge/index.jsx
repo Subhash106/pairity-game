@@ -17,6 +17,10 @@ export default function Recharge() {
     setRechargeAmount(amount);
   };
 
+  const rechargeAmountChangeHandler = (e) => {
+    setRechargeAmount(e.target.value);
+  };
+
   return (
     <div className="recharge">
       <div className="recharge-balance mb-md">
@@ -28,8 +32,9 @@ export default function Recharge() {
           fullWidth
           type="text"
           title="Enter amount"
-          placeholder="500-10000"
+          placeholder="200-10000"
           value={rechargeAmount}
+          onChange={rechargeAmountChangeHandler}
         />
         <div className="recharge-denominations mt-sm mb-sm">
           <button onClick={(e) => denominationHandler(e, 500)}>500</button>

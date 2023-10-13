@@ -1,7 +1,9 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { updateGame } from "../../store/game";
 import { setRecord } from "../../store/record";
+import getDiffCount from "../../utils/getDiffCount";
 import { COLOR_MAP } from "../constant";
 import "./style.css";
 
@@ -9,11 +11,7 @@ let timeoutId;
 export default function Timer() {
   const { durationInSeconds, id } = useSelector((state) => state.game);
   const dispatch = useDispatch();
-  // Your moment at midnight
-  const mmtMidnight = moment().clone().startOf("day");
-  // Difference in seconds
-  const diffSeconds = moment().diff(mmtMidnight, "seconds");
-  const diffSecondsCount = parseInt(diffSeconds / durationInSeconds);
+  const { diffSeconds, diffSecondsCount } = getDiffCount(durationInSeconds);
   const diffSecondsModulo = diffSeconds % durationInSeconds;
 
   const [count, setCount] = useState({
@@ -23,6 +21,11 @@ export default function Timer() {
     remainingSeconds: durationInSeconds - diffSecondsModulo,
   });
   const { period, minutes, seconds, remainingSeconds } = count;
+
+  useEffect(() => {
+    dispatch(updateGame({ diffSecondsCount }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setCount({
