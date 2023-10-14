@@ -20,7 +20,8 @@ const gameSlice = createSlice({
       return action.payload;
     },
     updateGame: (state, action) => {
-      return { ...state, [action.key]: action.value };
+      const { key, value } = action.payload;
+      return { ...state, [key]: value };
     },
   },
 });

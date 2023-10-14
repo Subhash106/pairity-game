@@ -7,6 +7,12 @@
   box-shadow: var(--default-box-shadow);
 }
 
+.board-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .board-join_color {
   display: flex;
   align-items: center;

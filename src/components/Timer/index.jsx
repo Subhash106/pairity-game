@@ -1,6 +1,7 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { baseUrl } from "../../services/constant";
 import { updateGame } from "../../store/game";
 import { setRecord } from "../../store/record";
 import getDiffCount from "../../utils/getDiffCount";
@@ -13,6 +14,8 @@ export default function Timer() {
   const dispatch = useDispatch();
   const { diffSeconds, diffSecondsCount } = getDiffCount(durationInSeconds);
   const diffSecondsModulo = diffSeconds % durationInSeconds;
+
+  //console.log("diffSecondsCount", diffSecondsCount);
 
   const [count, setCount] = useState({
     period: "",
@@ -48,6 +51,8 @@ export default function Timer() {
           period: `${moment().format("YYYYMMDD")}${diffSecondsCount}`,
         });
 
+        getResult();
+
         dispatch(
           setRecord({
             data: {
@@ -58,6 +63,7 @@ export default function Timer() {
             gameId: id,
           })
         );
+        dispatch(updateGame({ key: "disablePlay", value: false }));
       } else if (seconds === 0 && remainingSeconds) {
         setCount({
           ...count,
@@ -66,6 +72,10 @@ export default function Timer() {
           seconds: remainingSeconds % 60,
         });
       } else if (seconds >= 1) {
+        console.log("remainingSeconds", remainingSeconds);
+        if (remainingSeconds === 10) {
+          dispatch(updateGame({ key: "disablePlay", value: true }));
+        }
         setCount({
           ...count,
           minutes: parseInt(remainingSeconds / 60),
@@ -85,6 +95,77 @@ export default function Timer() {
     durationInSeconds,
     dispatch,
   ]);
+
+  const getResult = async () => {
+    const res = await fetch(
+      `${baseUrl}/plays.json?orderBy="time"&equalTo=${diffSecondsCount - 1}`
+    );
+    const responseData = await res.json();
+
+    const responseDataArr = Object.entries(responseData).map(([id, data]) => ({
+      ...data,
+      id,
+    }));
+
+    console.log("responseDataArr", responseDataArr);
+
+    const colorCounts = ["red", "green", "violet"]
+      .map((el) => ({
+        [el]: responseDataArr.filter((data) => data.color === el).length || 0,
+      }))
+      .reduce((acc, current) => {
+        const currentObject = Object.entries(current)[0];
+        console.log("current", current, currentObject);
+        return { ...acc, [currentObject?.[0]]: currentObject?.[1] };
+      }, {});
+
+    let colorWin = "";
+
+    if (colorCounts["red"] < colorCounts["green"]) {
+      colorWin = "red";
+    }
+
+    if (colorCounts["green"] < colorCounts["violet"]) {
+      colorWin = "green";
+    }
+
+    if (colorCounts["violet"] < colorCounts["red"]) {
+      colorWin = "violet";
+    }
+
+    if (colorCounts["red"] === colorCounts["green"]) {
+      colorWin = ["red", "green"];
+    }
+
+    if (colorCounts["green"] === colorCounts["violet"]) {
+      colorWin = ["green", "violet"];
+    }
+
+    if (colorCounts["violet"] === colorCounts["red"]) {
+      colorWin = ["violet", "red"];
+    }
+
+    if (
+      colorCounts["red"] === colorCounts["green"] &&
+      colorCounts["green"] === colorCounts["violet"] &&
+      colorCounts["violet"] === colorCounts["red"]
+    ) {
+      colorWin = ["violet", "red", "green"];
+    }
+
+    console.log("colorCounts", colorWin, colorCounts);
+
+    saveResult(diffSecondsCount - 1, id, colorWin);
+  };
+
+  const saveResult = async (time, gameId, winColor) => {
+    fetch(`${baseUrl}/results.json`, {
+      method: "POST",
+      body: JSON.stringify({ time, gameId, winColor }),
+    });
+  };
+
+  const saveUsersResult = () => async () => {};
 
   return (
     <div className="timer">
