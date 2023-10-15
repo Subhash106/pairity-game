@@ -53,16 +53,6 @@ export default function Timer() {
 
         getResult();
 
-        dispatch(
-          setRecord({
-            data: {
-              id: diffSecondsCount,
-              color: COLOR_MAP["red"],
-              number: 9,
-            },
-            gameId: id,
-          })
-        );
         dispatch(updateGame({ key: "disablePlay", value: false }));
       } else if (seconds === 0 && remainingSeconds) {
         setCount({
@@ -86,6 +76,7 @@ export default function Timer() {
     }, 1000);
 
     return () => clearInterval(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     id,
     count,
@@ -98,7 +89,7 @@ export default function Timer() {
 
   const getResult = async () => {
     const res = await fetch(
-      `${baseUrl}/plays.json?orderBy="time"&equalTo=${diffSecondsCount - 1}`
+      `${baseUrl}/plays.json?orderBy="time"&equalTo=${diffSecondsCount}`
     );
     const responseData = await res.json();
 
@@ -106,8 +97,12 @@ export default function Timer() {
       ...data,
       id,
     }));
-
     console.log("responseDataArr", responseDataArr);
+
+    if (!responseDataArr.length) {
+      console.log("No one played the game!");
+      return;
+    }
 
     const colorCounts = ["red", "green", "violet"]
       .map((el) => ({
@@ -121,40 +116,45 @@ export default function Timer() {
 
     let colorWin = "";
 
-    if (colorCounts["red"] < colorCounts["green"]) {
-      colorWin = "red";
-    }
-
-    if (colorCounts["green"] < colorCounts["violet"]) {
-      colorWin = "green";
-    }
-
-    if (colorCounts["violet"] < colorCounts["red"]) {
-      colorWin = "violet";
-    }
-
-    if (colorCounts["red"] === colorCounts["green"]) {
-      colorWin = ["red", "green"];
-    }
-
-    if (colorCounts["green"] === colorCounts["violet"]) {
-      colorWin = ["green", "violet"];
-    }
-
-    if (colorCounts["violet"] === colorCounts["red"]) {
-      colorWin = ["violet", "red"];
-    }
-
     if (
+      colorCounts["red"] < colorCounts["green"] &&
+      colorCounts["red"] < colorCounts["violet"]
+    ) {
+      colorWin = "red";
+    } else if (
+      colorCounts["green"] < colorCounts["violet"] &&
+      colorCounts["green"] < colorCounts["red"]
+    ) {
+      colorWin = "green";
+    } else if (
+      colorCounts["violet"] < colorCounts["red"] &&
+      colorCounts["violet"] < colorCounts["greed"]
+    ) {
+      colorWin = "violet";
+    } else if (
       colorCounts["red"] === colorCounts["green"] &&
       colorCounts["green"] === colorCounts["violet"] &&
       colorCounts["violet"] === colorCounts["red"]
     ) {
       colorWin = ["violet", "red", "green"];
+    } else if (colorCounts["red"] === colorCounts["green"]) {
+      colorWin = ["red", "green"];
+    } else if (colorCounts["green"] === colorCounts["violet"]) {
+      colorWin = ["green", "violet"];
+    } else if (colorCounts["violet"] === colorCounts["red"]) {
+      colorWin = ["violet", "red"];
     }
-
     console.log("colorCounts", colorWin, colorCounts);
-
+    dispatch(
+      setRecord({
+        data: {
+          id: diffSecondsCount,
+          color: COLOR_MAP[colorWin],
+          number: 9,
+        },
+        gameId: id,
+      })
+    );
     saveResult(diffSecondsCount - 1, id, colorWin);
   };
 
@@ -165,7 +165,7 @@ export default function Timer() {
     });
   };
 
-  const saveUsersResult = () => async () => {};
+  // const saveUsersResult = () => async () => {};
 
   return (
     <div className="timer">
