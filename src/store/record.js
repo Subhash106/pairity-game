@@ -132,9 +132,27 @@ const recordSlice = createSlice({
         },
       };
     },
+    updateRecord: (state, action) => {
+      const {
+        payload: { gameId, data, time },
+      } = action;
+
+      state.records[gameId][
+        state.records[gameId].find((record) => record.time === time).time
+      ]["number"] = data.number;
+
+      return {
+        ...state,
+        records: {
+          ...state.records,
+          [gameId]: state.records[gameId],
+        },
+      };
+    },
   },
 });
 
-export const { setRecord, setRecordForGame } = recordSlice.actions;
+export const { setRecord, setRecordForGame, updateRecord } =
+  recordSlice.actions;
 
 export default recordSlice.reducer;

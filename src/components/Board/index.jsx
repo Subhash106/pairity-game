@@ -12,8 +12,6 @@ export default function Board() {
   const gameState = useSelector((state) => state.game);
   const { disablePlay } = gameState;
 
-  console.log("gameState", gameState);
-
   useEffect(() => {
     if (disablePlay) {
       playRef.current.style.pointerEvents = "none";

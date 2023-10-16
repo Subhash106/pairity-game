@@ -3,4 +3,5 @@ export const COLOR_MAP = {
   green: "#79ac78",
   violet: "#713abe",
   default: "#333",
+  wait: "#F99417",
 };

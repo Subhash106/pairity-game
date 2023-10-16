@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { baseUrl } from "../../services/constant";
 import { updateGame } from "../../store/game";
-import { setRecord } from "../../store/record";
+import { setRecord, updateRecord } from "../../store/record";
 import getDiffCount from "../../utils/getDiffCount";
 import { COLOR_MAP } from "../constant";
 import "./style.css";
@@ -14,8 +14,6 @@ export default function Timer() {
   const dispatch = useDispatch();
   const { diffSeconds, diffSecondsCount } = getDiffCount(durationInSeconds);
   const diffSecondsModulo = diffSeconds % durationInSeconds;
-
-  //console.log("diffSecondsCount", diffSecondsCount);
 
   const [count, setCount] = useState({
     period: "",
@@ -52,6 +50,17 @@ export default function Timer() {
         });
 
         dispatch(updateGame({ key: "disablePlay", value: false }));
+        dispatch(
+          setRecord({
+            data: {
+              id: diffSecondsCount,
+              color: COLOR_MAP["wait"],
+              number: "?",
+              time: diffSecondsCount,
+            },
+            gameId: id,
+          })
+        );
       } else if (seconds === 0 && remainingSeconds) {
         setCount({
           ...count,
@@ -60,7 +69,6 @@ export default function Timer() {
           seconds: remainingSeconds % 60,
         });
       } else if (seconds >= 1) {
-        console.log("remainingSeconds", remainingSeconds);
         if (remainingSeconds === 10) {
           dispatch(updateGame({ key: "disablePlay", value: true }));
           getResult();
@@ -98,7 +106,6 @@ export default function Timer() {
       ...data,
       id,
     }));
-    console.log("responseDataArr", responseDataArr);
 
     if (!responseDataArr.length) {
       console.log("No one played the game!");
@@ -111,15 +118,16 @@ export default function Timer() {
       }))
       .reduce((acc, current) => {
         const currentObject = Object.entries(current)[0];
-        console.log("current", current, currentObject);
+
         return { ...acc, [currentObject?.[0]]: currentObject?.[1] };
       }, {});
 
     const colorWin = await getColorWin(colorCounts);
-    console.log("colorCounts", colorWin, colorCounts);
+
     dispatch(
-      setRecord({
+      updateRecord({
         data: {
+          time: diffSecondsCount,
           id: diffSecondsCount,
           color: COLOR_MAP[colorWin],
           number: 9,
@@ -133,12 +141,16 @@ export default function Timer() {
   const saveResult = async (time, gameId, winColor) => {
     fetch(`${baseUrl}/results.json`, {
       method: "POST",
-      body: JSON.stringify({ time, gameId, winColor }),
+      body: JSON.stringify({
+        day: `${moment().format("YYYYMMDD")}`,
+        time,
+        gameId,
+        winColor,
+      }),
     });
   };
 
   const getColorWin = async (colorCounts) => {
-    console.log("colorCounts inside", colorCounts);
     let colorWin = "";
 
     if (

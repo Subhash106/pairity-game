@@ -17,8 +17,6 @@ export default function CustomTable() {
       const res = await fetch(`${baseUrl}/plays.json`);
       const responseData = await res.json();
 
-      console.log("responseData", responseData);
-
       setPlays(
         Object.entries(responseData).map(
           ([id, { color, time, userId, amount }]) => ({
