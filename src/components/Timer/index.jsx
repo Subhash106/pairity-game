@@ -51,8 +51,6 @@ export default function Timer() {
           period: `${moment().format("YYYYMMDD")}${diffSecondsCount}`,
         });
 
-        getResult();
-
         dispatch(updateGame({ key: "disablePlay", value: false }));
       } else if (seconds === 0 && remainingSeconds) {
         setCount({
@@ -65,6 +63,7 @@ export default function Timer() {
         console.log("remainingSeconds", remainingSeconds);
         if (remainingSeconds === 10) {
           dispatch(updateGame({ key: "disablePlay", value: true }));
+          getResult();
         }
         setCount({
           ...count,
@@ -89,7 +88,9 @@ export default function Timer() {
 
   const getResult = async () => {
     const res = await fetch(
-      `${baseUrl}/plays.json?orderBy="time"&equalTo=${diffSecondsCount}`
+      `${baseUrl}/plays.json?orderBy="timestamp"&equalTo="${moment().format(
+        "YYYYMMDD"
+      )}${diffSecondsCount}"`
     );
     const responseData = await res.json();
 
@@ -114,6 +115,30 @@ export default function Timer() {
         return { ...acc, [currentObject?.[0]]: currentObject?.[1] };
       }, {});
 
+    const colorWin = await getColorWin(colorCounts);
+    console.log("colorCounts", colorWin, colorCounts);
+    dispatch(
+      setRecord({
+        data: {
+          id: diffSecondsCount,
+          color: COLOR_MAP[colorWin],
+          number: 9,
+        },
+        gameId: id,
+      })
+    );
+    saveResult(diffSecondsCount, id, colorWin);
+  };
+
+  const saveResult = async (time, gameId, winColor) => {
+    fetch(`${baseUrl}/results.json`, {
+      method: "POST",
+      body: JSON.stringify({ time, gameId, winColor }),
+    });
+  };
+
+  const getColorWin = async (colorCounts) => {
+    console.log("colorCounts inside", colorCounts);
     let colorWin = "";
 
     if (
@@ -128,41 +153,18 @@ export default function Timer() {
       colorWin = "green";
     } else if (
       colorCounts["violet"] < colorCounts["red"] &&
-      colorCounts["violet"] < colorCounts["greed"]
+      colorCounts["violet"] < colorCounts["green"]
     ) {
       colorWin = "violet";
-    } else if (
-      colorCounts["red"] === colorCounts["green"] &&
-      colorCounts["green"] === colorCounts["violet"] &&
-      colorCounts["violet"] === colorCounts["red"]
-    ) {
-      colorWin = ["violet", "red", "green"];
     } else if (colorCounts["red"] === colorCounts["green"]) {
       colorWin = ["red", "green"];
     } else if (colorCounts["green"] === colorCounts["violet"]) {
       colorWin = ["green", "violet"];
-    } else if (colorCounts["violet"] === colorCounts["red"]) {
+    } else {
       colorWin = ["violet", "red"];
     }
-    console.log("colorCounts", colorWin, colorCounts);
-    dispatch(
-      setRecord({
-        data: {
-          id: diffSecondsCount,
-          color: COLOR_MAP[colorWin],
-          number: 9,
-        },
-        gameId: id,
-      })
-    );
-    saveResult(diffSecondsCount - 1, id, colorWin);
-  };
 
-  const saveResult = async (time, gameId, winColor) => {
-    fetch(`${baseUrl}/results.json`, {
-      method: "POST",
-      body: JSON.stringify({ time, gameId, winColor }),
-    });
+    return colorWin;
   };
 
   // const saveUsersResult = () => async () => {};

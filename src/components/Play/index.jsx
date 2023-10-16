@@ -1,5 +1,6 @@
 import { CurrencyRupee } from "@mui/icons-material";
 import { Alert, Button } from "@mui/material";
+import moment from "moment";
 import { func } from "prop-types";
 import { string } from "prop-types";
 import { useEffect } from "react";
@@ -60,6 +61,7 @@ export default function Play({ title, color, handleClose }) {
       color,
       amount: totalMoney,
       time: diffSecondsCount,
+      timestamp: `${moment().format("YYYYMMDD")}${diffSecondsCount}`,
     };
 
     await fetch(`${baseUrl}/plays.json`, {

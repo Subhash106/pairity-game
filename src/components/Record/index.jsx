@@ -31,11 +31,13 @@ export default function Record() {
     dispatch(
       setRecordForGame({
         gameId: id,
-        data: Object.entries(responseData).map(([id, { time, winColor }]) => ({
-          id: id,
-          color: winColor,
-          number: time,
-        })),
+        data: Object.entries(responseData)
+          .map(([id, { time, winColor }]) => ({
+            id: id,
+            color: winColor,
+            number: time,
+          }))
+          .sort((a, b) => a.number - b.number),
       })
     );
   };
