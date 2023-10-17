@@ -46,17 +46,17 @@ export default function Timer() {
           remainingSeconds: durationInSeconds - 1,
           minutes: parseInt((durationInSeconds - 1) / 60),
           seconds: durationInSeconds === 30 ? 29 : 59,
-          period: `${moment().format("YYYYMMDD")}${diffSecondsCount}`,
+          period: `${moment().format("YYYYMMDD")}${diffSecondsCount + 1}`,
         });
 
         dispatch(updateGame({ key: "disablePlay", value: false }));
         dispatch(
           setRecord({
             data: {
-              id: diffSecondsCount,
+              id: diffSecondsCount + 1,
               color: COLOR_MAP["wait"],
               number: "?",
-              time: diffSecondsCount,
+              time: diffSecondsCount + 1,
             },
             gameId: id,
           })
@@ -129,7 +129,7 @@ export default function Timer() {
         data: {
           time: diffSecondsCount,
           id: diffSecondsCount,
-          color: COLOR_MAP[colorWin],
+          color: colorWin,
           number: 9,
         },
         gameId: id,

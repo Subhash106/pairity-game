@@ -134,20 +134,12 @@ const recordSlice = createSlice({
     },
     updateRecord: (state, action) => {
       const {
-        payload: { gameId, data, time },
+        payload: { gameId, data },
       } = action;
 
       state.records[gameId][
-        state.records[gameId].find((record) => record.time === time).time
-      ]["number"] = data.number;
-
-      return {
-        ...state,
-        records: {
-          ...state.records,
-          [gameId]: state.records[gameId],
-        },
-      };
+        state.records[gameId].findIndex((record) => record.time === data.time)
+      ] = data;
     },
   },
 });
