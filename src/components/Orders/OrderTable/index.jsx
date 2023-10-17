@@ -35,7 +35,7 @@ export default function CustomTable() {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 400 }} stickyHeader aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Time</TableCell>
