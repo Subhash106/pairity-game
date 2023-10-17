@@ -63,8 +63,8 @@ const initialState = {
       },
       {
         id: 12,
-        number: "?",
-        color: "#98eecc",
+        number: "5",
+        color: ["#98eecc", "#793fdf"],
       },
     ],
     game4: [
@@ -106,20 +106,45 @@ const recordSlice = createSlice({
   name: "record",
   initialState,
   reducers: {
-    setRecord: (state, action) => {
+    setRecordForGame: (state, action) => {
+      const {
+        payload: { gameId, data },
+      } = action;
+
       return {
         ...state,
         records: {
           ...state.records,
-          [action.payload.gameId]: state.records[action.payload.gameId].concat([
-            action.payload.data,
-          ]),
+          [gameId]: data,
         },
       };
+    },
+    setRecord: (state, action) => {
+      const {
+        payload: { gameId, data },
+      } = action;
+
+      return {
+        ...state,
+        records: {
+          ...state.records,
+          [gameId]: state.records[gameId].concat([data]),
+        },
+      };
+    },
+    updateRecord: (state, action) => {
+      const {
+        payload: { gameId, data },
+      } = action;
+
+      state.records[gameId][
+        state.records[gameId].findIndex((record) => record.time === data.time)
+      ] = data;
     },
   },
 });
 
-export const { setRecord } = recordSlice.actions;
+export const { setRecord, setRecordForGame, updateRecord } =
+  recordSlice.actions;
 
 export default recordSlice.reducer;
