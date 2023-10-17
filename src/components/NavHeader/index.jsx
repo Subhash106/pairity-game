@@ -10,6 +10,9 @@ import "./style.css";
 export default function NavHeader() {
   const [open, setOpen] = useState(false);
   const { title } = useSelector((state) => state.game);
+  const state = useSelector((state) => state);
+
+  console.log("state", state);
 
   const handleClose = () => {
     setOpen(false);

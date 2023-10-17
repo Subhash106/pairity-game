@@ -1,16 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import getDiffCount from "../utils/getDiffCount";
+import { loadState } from "../utils/localStorage";
 
-const { diffSecondsCount } = getDiffCount(180);
-
-const initialState = {
-  id: "game4",
-  title: "Safe-Parity",
-  backgroundColor: "#219C90",
-  timeDuration: "3mins",
-  durationInSeconds: 180,
-  diffSecondsCount,
-};
+const initialState = loadState().game;
 
 const gameSlice = createSlice({
   name: "game",
